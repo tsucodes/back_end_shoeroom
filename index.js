@@ -1,6 +1,13 @@
 
-const express = require('express');
-const cors = require('cors');
+// const express = require('express');
+// const bodyParser = require('body-parser')
+// const mongoose = require('mongoose');
+// const cors = require('cors');
+// updated syntax
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyparser from 'body-parser';
+import cors from 'cors';
 
 // instantiate express
 const app = express();
