@@ -1,6 +1,4 @@
-//=============================================================================
-// Mongo Atlas Connection
-//=============================================================================
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 
@@ -9,7 +7,7 @@ let mongoURI = "";
 const db = mongoose.connection;
 
 if (process.env.NODE_ENV === "production") {
-	mongoURI = process.env.DATABASE_URL;
+	mongoURI = process.env.DB_URL;
   } else {
 	mongoURI = "mongodb://localhost/8000";
   }

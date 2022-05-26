@@ -1,14 +1,24 @@
 
 import express from 'express';
-// import { getPosts, getPostByID, createPost, updatePost, deletePost } from '../controllers/postController.js';
-import { getPosts } from '../controllers/postController.js'
 const router = express.Router();
-// import auth from "../middleware/jwtAuth.js";
+// import controllers 
+import { getPosts, getPostByID, createPost, updatePost, deletePost } from '../controllers/postController.js';
+import auth from "../middleware/jwtAuth.js";
 
-// router.get('/:id', getPostByID);
+// api endpoints
+//  / is local host 5000 
+// router.get('/', (req,res) => {
+//     res.send('hello')
+// })
+
+
+router.get('/:id', getPostByID);
 router.get('/', getPosts);
-// router.post('/',auth,  createPost);
+router.post('/',  createPost);
+
+router.patch('/:id', updatePost);
 // router.patch('/:id', auth, updatePost);
+router.delete('/:id', deletePost);
 // router.delete('/:id', auth, deletePost);
 
-export default 
+export default router;

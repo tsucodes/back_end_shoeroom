@@ -14,5 +14,5 @@ const PostSchema = new mongoose.Schema({
 });
 
 
-const ShoePost = mongoose.model('ShoePost', PostSchema);
-export default ShoePost;
+const PostShoe = mongoose.model('PostShoe', PostSchema);
+export default PostShoe;
