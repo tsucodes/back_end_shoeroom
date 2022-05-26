@@ -9,7 +9,7 @@ import express from 'express';
 import cors from 'cors';
 
 // import all post routes
-import Route from './routes/postRoute.js';
+import router from './routes/postRoute.js';
 const app = express();
 
 app.set('port', process.env.PORT || 8000);
@@ -29,7 +29,8 @@ console.log('custom middleware executed!');
 app.use(middleware);
 
 // set routes for all endpoint to start with /post
-app.use('/post', Route);
+app.use('/post', router);
+
 // app.get('/', (req, res) =>{
 //   res.redirect('/post');
 // })
