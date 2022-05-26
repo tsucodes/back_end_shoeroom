@@ -8,40 +8,33 @@ import bodyparser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import postRoute from './routes/postRoute.js';
+import Route from './routes/postRoute.js';
 
 const app = express();
 
 // Middleware
 // everyroute will start wth post
-app.use('/post', postRoute);
-
-
 // instantiate express
-
 // limits size incase pictures are too big
 app.use(bodyparser.json({limit: "30mb", extended: true}));
 app.use(bodyparser.urlencoded({limit: "30mb", extended: true}))
 app.use(cors());
 
-const CONNECTION_URL = process.env.DATABASE_URL
-const PORT = process.env.PORT || 8000;
+app.use('/post', Route);
 
-mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
-  .catch((error) => console.log(error.message));
+app.set('port', process.env.PORT || 8000);
+// err handling
+app.use((err, req, res, next) => {
+	const statusCode = res.statusCode || 500;
+	const message = err.message || 'Internal Server Error';
+	res.status(statusCode).send(message);
+  });
 
+// start server
+app.listen(app.get('port'), () => {
+	console.log(`✅ PORT: ${app.get('port')} 🌟`);
+});
 
-
-
-
-
-
-
-
-//=============================================================================
-// ROUTES
-//=============================================================================
 // // Redirect
 // app.get('/', (req, res) => {
 // 	res.redirect('/shoeroom');
@@ -52,29 +45,7 @@ mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: tr
 
 // const userController = require('./controllers/userController');
 // app.use('/users/', userController);
-// /* END CONTROLLERS HERE */
-// // err handling
-// app.use((err, req, res, next) => {
-// 	const statusCode = res.statusCode || 500;
-// 	const message = err.message || 'Internal Server Error';
-// 	res.status(statusCode).send(message);
-//   });
-// //=============================================================================
-// // START SERVER
-// //=============================================================================
-// app.listen(app.get('port'), () => {
-// 	console.log(`✅ PORT: ${app.get('port')} 🌟`);
-// });
 
-
-// // // basic config
-// // const express = require('express');
-// // const { default: mongoose } = require('mongoose');
-// // const app = express();
-// // app.set('port', process.env.PORT || 8000);
-// // // const cors = require('cors');
-// // // register models for use when needed
-// // require('./models/User')
 
 
 // // // middleware
@@ -106,14 +77,3 @@ mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: tr
 // // app.use('/sneaker', sneakerControllers);
 
 
-// // err handling
-// app.use((err, req, res, next) => {
-// 	const statusCode = res.statusCode || 500;
-// 	const message = err.message || 'Internal Server Error';
-// 	res.status(statusCode).send(message);
-//   });
-
-// // start server
-// app.listen(app.get('port'), () => {
-// 	console.log(`✅ PORT: ${app.get('port')} 🌟`);
-// });

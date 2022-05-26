@@ -1,71 +1,67 @@
-import express from 'express';
-import mongoose from 'mongoose';
-
-import PostShoe from '../models/Post.js';
-
+const express = require('express');
 const router = express.Router();
+const Sneaker = require('../models/Sneaker');
 
-// get all post
-export const getPosts = async (req, res) => { 
-    try {
-        const postedShoes = await PostShoe.find();
-        res.status(200).json(postedShoes);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
-    }
+//READ: get all sneakers
+router.get('/', (req, res, next) => {
+	Sneaker.find({})
+		.then((sneakers) => res.json(sneakers))
+		.catch(next);
+});
+
+//READ: get all sneakers by ID
+router.get('/:id', async (req, res, next) => {
+	try {
+		const sneakerID = await Sneaker.findById(req.params.id);
+		res.json(sneakerID);
+	} catch (err) {
+		next(err);
+	}
+});
+
+//CREATE: add sneaker
+router.post('/', async (req, res, next) => {
+	try {
+		const addsneaker = await Sneaker.create(req.body);
+        //Use this line if I don't want to redirect
+		// res.status(201).json(addsneaker);
+		res.redirect(303, '/');
+	} catch (err) {
+		next(err);
+	}
+});
+
+//UPDATE: update sneaker by id
+router.put('/:id', async (req, res, next) => {
+	try {
+		const SneakerToUpdate = await Sneaker.findByIdAndUpdate(
+			req.params.id,
+			req.body,
+			{
+				new: true,
+			}
+		);
+		if (SneakerToUpdate) {
+			res.redirect(303, '/');
+		} else {
+			res.sendStatus(404);
+		}
+	} catch (error) {
+		next(error);
+	}
+});
+
+//DELETE sneaker
+router.delete('/:id', async (request, response, next) => {
+	try {
+	const SneakerToDelete = await Sneaker.findByIdAndDelete(request.params.id);
+	if (SneakerToDelete) {
+		response.redirect(303, '/');
+	}else{
+		response.sendStatus(404);
+	}
+}catch(error) {
+	next(error);
 }
-
-// get all post by ID
-export const getPost = async (req, res) => { 
-    const { id } = req.params;
-    try {
-        const post = await PostShoe.findById(id);
-        res.status(200).json(post);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
-    }
-}
-// create new post
-export const createPost = async (req, res) => {
-    const { name, brand, size, condition, image, sold } = req.body;
-    const newShoePost = new PostShoe({ name, brand, size, condition, image, sold})
-    try {
-        await newShoePost.save();
-        res.status(201).json(newShoePost );
-    } catch (error) {
-        res.status(409).json({ message: error.message });
-    }
-}
-// edit post
-export const updatePost = async (req, res) => {
-    const { id } = req.params;
-    const { name, brand, size, condition, image, sold} = req.body;
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
-    const updatedPost = { name, brand, size, condition, image, sold, _id: id };
-    await PostShoe.findByIdAndUpdate(id, updatedPost, { new: true });
-
-    res.json(updatedPost);
-}
-// delete post
-export const deletePost = async (req, res) => {
-    const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
-    await PostShoe.findByIdAndRemove(id);
-    res.json({ message: "Post deleted successfully." });
-}
-
-// controller to mark as sold
-
-export const soldPost = async (req, res) => {
-    const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
-    const post = await PostMessage.findById(id);
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, { new: true });
-    res.json(updatedPost);
-}
-
-
-export default router;
-
-
-// Routes
+})
+module.exports = router;

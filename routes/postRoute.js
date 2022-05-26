@@ -1,17 +1,14 @@
+
 import express from 'express';
-import { getPosts, getPost, createPost, updatePost, deletePost, soldPost } from '../controllers/postController.js';
-
+// import { getPosts, getPostByID, createPost, updatePost, deletePost } from '../controllers/postController.js';
+import { getPosts } from '../controllers/postController.js'
 const router = express.Router();
+// import auth from "../middleware/jwtAuth.js";
 
-// router.get('/', (req, res) =>{
-//     res.send('workiingggggng');
-// });
-
+// router.get('/:id', getPostByID);
 router.get('/', getPosts);
-router.post('/', createPost);
-router.get('/:id', getPost);
-router.patch('/:id', updatePost);
-router.delete('/:id', deletePost);
-router.patch('/:id/soldPost', soldPost);
+// router.post('/',auth,  createPost);
+// router.patch('/:id', auth, updatePost);
+// router.delete('/:id', auth, deletePost);
 
-export default router;
+export default 

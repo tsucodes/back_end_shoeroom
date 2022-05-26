@@ -7,7 +7,6 @@ const PostSchema = new mongoose.Schema({
     condition: String,
     // convert images into string using redux64
     image: String,
-    sold: Boolean,
     createdAt: {
         type: Date,
         default: new Date(),
@@ -15,5 +14,5 @@ const PostSchema = new mongoose.Schema({
 });
 
 
-const ShoePost = mongoose.model('Post', PostSchema);
+const ShoePost = mongoose.model('ShoePost', PostSchema);
 export default ShoePost;
