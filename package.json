@@ -12,23 +12,7 @@
   "devDependencies": {
     "nodemon": "^2.0.16"
   },
-  "name": "babbleblog-backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "nodemon index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tsucodes/back_end_shoeroom.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tsucodes/back_end_shoeroom/issues"
-  },
-  "homepage": "https://github.com/tsucodes/back_end_shoeroom#readme",
-  "description": ""
+  }
 }

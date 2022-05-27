@@ -1,6 +1,8 @@
-import bcrypt from "bcryptjs";
+const express = require('express');
+const router = express.Router();
+const bcrypt = require("bcryptjs");
 import jwt from "jsonwebtoken";
-import UserModal from "../models/user.js";
+import User from "../models/User.js";
 
 const secret = 'test';
 
@@ -8,7 +10,7 @@ export const signin = async (req, res) => {
      const { email, password } = req.body;
 
   try {
-    const oldUser = await UserModal.findOne({ email });
+    const oldUser = await User.findOne({ email });
 
     if (!oldUser) 
       return res.status(404).json({ 
@@ -40,7 +42,7 @@ export const signup = async (req, res) => {
     const { email, password, firstName, lastName } = req.body;
   
     try {
-      const oldUser = await UserModal.findOne({ 
+      const oldUser = await User.findOne({ 
         email
        });
   
@@ -50,7 +52,7 @@ export const signup = async (req, res) => {
         });
   
       const hashedPassword = await bcrypt.hash(password, 12);
-      const result = await UserModal.create({
+      const result = await User.create({
          email, password: hashedPassword, name: `${firstName} ${lastName}`
          });
   
@@ -69,3 +71,5 @@ export const signup = async (req, res) => {
       console.log(error);
     }
   };
+
+  module.exports = router;

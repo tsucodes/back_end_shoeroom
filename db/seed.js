@@ -1,14 +1,14 @@
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 
-import Post  from '../models/Post';
-import shoeSeed from './postData.json';
+// import Post  from '../models/Post';
+// import shoeSeed from './postData.json';
 
-const shoeData = shoeSeed.map(post => {
-    return post;
-})
+// const shoeData = shoeSeed.map(post => {
+//     return post;
+// })
 
-Post.deleteMany({})
-    .then(() => {
-        Post.insertMany(shoeData);
-})
-.catch(console.error)
+// Post.deleteMany({})
+//     .then(() => {
+//         Post.insertMany(shoeData);
+// })
+// .catch(console.error)

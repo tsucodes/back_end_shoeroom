@@ -1,21 +1,20 @@
-import express from 'express';
-
-import mongoose from 'mongoose';
-import PostShoe from '../models/Post.js';
+const express = require('express');
 const router = express.Router();
+const PostShoe = require('../models/Post.js');
+
+
 // // // get all post
-export const getPosts = async (req, res, next) => { 
+router.get('/', async ( res) => { 
      try {
-        const shoeCard = await PostShoe.find();
-        console.log(shoeCard)          
+        const shoeCard = await PostShoe.find();         
     res.status(200).json(shoeCard);
 } catch (error) {
     res.status(404).json({ message: error.message });
 }
-}
+});
 
 // // get all post by ID
-export const getPostByID = async (req, res) => { 
+router.get('/:id',async (req, res) => { 
     const { id } = req.params;
     try {
         const post = await PostShoe.findById(id);
@@ -24,10 +23,10 @@ export const getPostByID = async (req, res) => {
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
-}
+});
 
 // // create new post
-export const createPost = async (req, res) => {
+router.post('/', async (req, res) => {
     const { name, 
             brand, 
             size, 
@@ -40,9 +39,9 @@ export const createPost = async (req, res) => {
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
-}
+});
 // // edit post
-export const updatePost = async (req, res) => {
+router.patch('/:id', async (req, res) => {
     const { id } = req.params;
     const { name, 
             brand, 
@@ -55,13 +54,13 @@ export const updatePost = async (req, res) => {
     await PostShoe.findByIdAndUpdate(id, updatedPost, { new: true });
 
     res.json(updatedPost);
-}
+})
 // // delete post
-export const deletePost = async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     await PostShoe.findByIdAndDelete(id);
     res.json({ message: "Sold , Traded, Trashed!" });
-}
+})
 
-export default router;
+module.exports = router;
